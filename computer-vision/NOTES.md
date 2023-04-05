@@ -54,3 +54,27 @@ It will return a new image with the gaussian blur by convolving the image with a
 ---
 
 ## 4.- Canny
+Canny method to identify edges in the image.
+Recall that an edge corresponds to a region in an image where there is a sharp change in intensity or in color between adjacent pixels.
+
+The change in brightness over a series of pixels is the **Gradient**.
+Strong gradient indicates a steep change, where a small gradient a shallow change. 
+![image](/computer-vision/static/MD/gradient-change.png)
+
+<br>
+
+Must represent the image in a 2-dimensional coordinates space, **x** and **y**
+![image](/computer-vision/static/MD/x%20and%20y%20in%20gradient.png)
+
+### f(x, y)
+___What operator can we use to determine rapid changes in brightness in the image?___
+<br>
+**Candy Function**
+<br>
+It will perform a derivative on our function in both x and y directions.
+Measuring the change intensity with respect to adjacent pixels. <br>
+A small derivative is a small change in intensity, where a big derivative is a big change. <br>
+
+By computing the derivative in all directions of the image, we're computing the gradients.
+
+![image](/computer-vision/static/MD/canny_function_example.png)
