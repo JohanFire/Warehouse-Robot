@@ -36,3 +36,18 @@ wherever there's a sharp change in intensity, a rapid change in brightness, wher
 Images are made up of pixels, a 3-channel color image of (RGB), 3 intensity values, whereas a grayscale image only has one channel, each pixel with only one intensity value, ranging from 0 to 255.
 
 **Using a grayscale image processing a single channel is faster than processing a 3-channel color image and less computational intensive**
+
+---
+# 3.- Finding Lane Lines
+## Gaussian Blur (Reduce Noise and smooth the image)
+![image](/computer-vision/static/MD/gaussian-example.png)
+![image](/computer-vision/static/MD/grayscale-image-pixels.png)
+averaging out the pixels in the image to reduce noise, will be done with a kernel.
+This kernel essentially of a normally distributed numbers is run accross the entire image and sets each pixel value equal to the weighted average of its neighboring pixels, smoothering the image.
+![image](/computer-vision/static/MD/kernel.png)
+
+Example:
+![image](/computer-vision/static/MD/gaussian-kernel.png)
+5x5 kernel, the size depends on specif situation, but 5x5 is a good size for most cases.
+It will return a new image with the gaussian blur by convolving the image with a kernel of Gaussian values, reduces noise in the image
+![image](/computer-vision/static/MD/gaussian-kernel-02.png)
