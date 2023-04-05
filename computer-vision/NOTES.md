@@ -78,3 +78,11 @@ A small derivative is a small change in intensity, where a big derivative is a b
 By computing the derivative in all directions of the image, we're computing the gradients.
 
 ![image](/computer-vision/static/MD/canny_function_example.png)
+
+---
+
+## 5.-  Region of interest
+Specify a region of interest in the image, we are going to use to detect our lanelines.
+![image](/computer-vision/static/MD/region_of_interest.png)
+
+Instead of showing the image with gradient with OpenCV, will use matplotlib to better clarify how will isolate this region.

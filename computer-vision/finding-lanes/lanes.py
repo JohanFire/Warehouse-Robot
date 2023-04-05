@@ -1,7 +1,6 @@
-# lanes = carriles
-
 import cv2
 import numpy
+import matplotlib.pyplot as plt
 
 def canny(lane_image):
     gray = cv2.cvtColor(lane_image, cv2.COLOR_RGB2GRAY)
@@ -15,5 +14,7 @@ lane_image = numpy.copy(image)
 
 canny = canny(lane_image)
 
-cv2.imshow('image', canny)
-cv2.waitKey(0)
+# cv2.imshow('image', canny)
+# cv2.waitKey(0)
+plt.imshow(canny)
+plt.show()
