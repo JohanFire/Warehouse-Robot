@@ -86,3 +86,10 @@ Specify a region of interest in the image, we are going to use to detect our lan
 ![image](/computer-vision/static/MD/region_of_interest.png)
 
 Instead of showing the image with gradient with OpenCV, will use matplotlib to better clarify how will isolate this region.
+
+This is the region of interest I'll be trying to specify, from x:200 to x:1100 and y:250
+
+![image](/computer-vision/static/MD/region_to_draw.png)
+
+And the triangle white mask of the region of interest applied to a black background, will look like this:
+![image](/computer-vision/static/MD/triangle_white_mask.png)
