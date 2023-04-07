@@ -93,3 +93,43 @@ This is the region of interest I'll be trying to specify, from x:200 to x:1100 a
 
 And the triangle white mask of the region of interest applied to a black background, will look like this:
 ![image](/computer-vision/static/MD/triangle_white_mask.png)
+
+---
+
+## 6.- Bitwise_and
+### Understanding Binary Numbers
+![image](/computer-vision/static/MD/binary_numbers_and_equivalents.png)
+
+**Example: Get the binary number of 23?**
+23 = 10111 <br>
+How?
+![image](/computer-vision/static/MD/23_to_binary.png)
+Does 128 fits in 23? = 0 = **no** <br>
+Does 64 fits in 23? = 0 = **no** <br>
+Does 32 fits in 23? = 0 = **no** <br>
+Does 16 fits in 23? = 1 = **yes** and remains 7. <br>
+Does 8 fits in 7? = 0 = **no**<br>
+Does 4 fits in 7? = 1 = **yes** and remains 3. <br>
+Does 2 fits in 3? = 1 = **yes** and remains 1. <br>
+Does 1 fits in 1? = 1 = **yes** <br>
+
+= **000 10111**
+<br><br>
+
+![image](/computer-vision/static/MD/0_and_255_in_region_of_interest.png)
+
+![image](/computer-vision/static/MD/255_to_binary.png)
+
+### Bitwise example:
+If both are 0, will be 0. <br>
+If one of them is 0, will be 0. <br>
+If both are 1, will be 1. <br>
+![image](/computer-vision/static/MD/bitwise_example.png)
+
+### Bitwise_and example:
+so imagine we have a mask, which binary values is 0, because is all dark, their pixels are 0.
+And wanto to do bitwise with an image, which have some values of 255 so will have some binary numbers,
+So if you bitwise the mask 0 with the image, will automatically define the values as 0.
+![image](/computer-vision/static/MD/bitwise_and.png)
+![image](/computer-vision/static/MD/bitwise_and_0.png)
+![image](/computer-vision/static/MD/bitwise_and_1.png)
