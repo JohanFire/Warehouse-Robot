@@ -24,14 +24,19 @@ def region_of_interest(image):
 
     cv2.fillPoly(mask, polygons, 255) # color of polygon, completely white
     
-    return mask
+    # will return only the region of interest traced by the polygonal contour of the mask
+    masked_image = cv2.bitwise_and(image, mask) 
+
+    return masked_image
 
 image = cv2.imread("test_lane_02.png")
 lane_image = numpy.copy(image)
 
 canny = canny(lane_image)
 
-cv2.imshow('image', region_of_interest(canny))
+cropped_image = region_of_interest(canny)
+
+cv2.imshow('image', cropped_image)
 cv2.waitKey(0)
 # plt.imshow(canny)
 # plt.show()
