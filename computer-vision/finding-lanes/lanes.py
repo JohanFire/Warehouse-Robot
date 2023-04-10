@@ -31,12 +31,18 @@ def region_of_interest(image):
 
 image = cv2.imread("test_lane_02.png")
 lane_image = numpy.copy(image)
-
 canny = canny(lane_image)
-
 cropped_image = region_of_interest(canny)
 
-cv2.imshow('image', cropped_image)
+lane_imageResized = cv2.resize(lane_image,(720,480))
+cannyResized = cv2.resize(canny,(720,480))
+cropped_imageResized = cv2.resize(cropped_image,(720,480))
+
+cv2.imshow('lane_image', lane_imageResized)
+cv2.imshow('canny', cannyResized)
+cv2.imshow('region_of_interest', cropped_imageResized)
+
 cv2.waitKey(0)
+
 # plt.imshow(canny)
 # plt.show()
