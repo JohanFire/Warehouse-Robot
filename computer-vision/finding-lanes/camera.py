@@ -8,12 +8,10 @@ if not capture.isOpened():
     exit()
 
 while True:
-    # Capturar un cuadro de la cámara
     ret, frame = capture.read()
 
     cv2.imshow('Camera', frame)
 
-    # Si presionas la tecla 'q', salir del bucle
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
