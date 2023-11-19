@@ -133,3 +133,19 @@ So if you bitwise the mask 0 with the image, will automatically define the value
 ![image](/computer-vision/static/MD/bitwise_and.png)
 ![image](/computer-vision/static/MD/bitwise_and_0.png)
 ![image](/computer-vision/static/MD/bitwise_and_1.png)
+
+---
+
+## 8.- Hough Transform
+### Finding lane lines 
+Technique to detect straight lines in an image, will be used to identify the lanes.
+
+![image](/computer-vision/static/MD/rho_and_theta.png)
+**Rho** = distance resolution of the accumulator in pixels<br>
+**Theta** = angle resolution of the accumulator in radians
+<br>
+the larger the bins, the less precision in which lines are going to 
+be detected.
+We need our bins to be sufficiently small, the smaller the row and degree
+intervals we specify for each bin, the smaller the bins and the more precision in which we can detect our lines.
+Yet you don't want to make your bins too small, since that can also result in inaccuracies and taking more time to run.

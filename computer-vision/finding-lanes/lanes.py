@@ -8,6 +8,25 @@ def canny(image):
     canny = cv2.Canny(blur, 50, 150) #(image, lowThreshold, highThreshold)
     return canny
 
+def display_lines(image, lines):
+    """ line_image is an array of zeros with the same shape as the lane images array"""
+    line_image =numpy.zeros_like(image)
+    
+    if lines is not None:
+        for line in lines:
+            print(line)
+            """ each line is a 2D array containing line coordinates [[x1, y1, x2, y2]] 
+            now will reshape every line into a 1D array [x1, y1, x2, y2]
+            """
+            # line = line.reshape(4)
+            x1, y1, x2, y2 = line.reshape(4)
+
+            # draw line
+            """ args(line_image, (first point of the line), (second point)), color, thickness """
+            cv2.line(line_image, (x1, y1), (x2, y2), (255, 0 ,0), 10)
+    
+    return line_image
+
 # will return the enclosed region of our field of view and recall that the enclosed region was triangular in shape
 def region_of_interest(image):
     # this sizes corresponds to the triangle I drew before in matplotlib
@@ -34,13 +53,39 @@ lane_image = numpy.copy(image)
 canny = canny(lane_image)
 cropped_image = region_of_interest(canny)
 
-lane_imageResized = cv2.resize(lane_image,(720,480))
-cannyResized = cv2.resize(canny,(720,480))
-cropped_imageResized = cv2.resize(cropped_image,(720,480))
+lane_imageResized = cv2.resize(lane_image,(720,480)) # for show
+cannyResized = cv2.resize(canny,(720,480)) # for show
+cropped_imageResized = cv2.resize(cropped_image,(720,480)) # for show
+
+""" 2nd & 3rd arguments are really important 
+as they specify the size of the bits, 
+Rho = distance resolution of the accumulator in pixels
+Theta = angle resolution of the accumulator in radians
+
+arguments:
+- image
+- Precision of 2 pixels
+- 1 degree precision (1 degree = pi/180)
+- threshold = 100 forth
+# Threshold: minimum number of votes/intersections needed to accept a candidate line
+- placeholder empty array
+- minimum length of a line in pixels we will accept into the output
+- max line gap 
+"""
+lines = cv2.HoughLinesP(
+    cropped_image, 
+    2, 
+    numpy.pi/180, 100, 
+    numpy.array([]),
+    minLineLength=40,
+    maxLineGap=5
+) 
+line_image = display_lines(lane_image, lines)
 
 cv2.imshow('lane_image', lane_imageResized)
 cv2.imshow('canny', cannyResized)
 cv2.imshow('region_of_interest', cropped_imageResized)
+cv2.imshow('result', line_image)
 
 cv2.waitKey(0)
 
