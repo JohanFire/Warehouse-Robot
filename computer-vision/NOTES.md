@@ -1,4 +1,5 @@
 # Finding Lane Lines
+[tuto](https://www.youtube.com/watch?v=eLTLtUVuuy4&list=PLi5obeKYpstlktQQyLjV4gda0O-zfBcT2&index=15&t=1108s)
 ## 2.- Grayscale Conversion
 ### Edge Detection
 Identify sharp changes in intensity in adjacent pixels
