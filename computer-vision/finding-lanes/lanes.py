@@ -9,6 +9,27 @@ def canny(image):
     canny = cv2.Canny(blur, 50, 150) #(image, lowThreshold, highThreshold)
     return canny
 
+def region_of_interest(image):
+    """ will return the enclosed region of our field of view and recall that the enclosed region was triangular in shape """
+    # this sizes corresponds to the triangle I drew before in matplotlib
+    # camn array is 2-dimensional: (m, n)
+    height = image.shape[0]
+
+    # set the tringle polygon in an array of polygon
+    polygons = numpy.array([
+        [(200, height), (1100, height), (550, 250)]
+        ])
+
+    # then apply this triangle polygon to a black mask with same dimension
+    mask = numpy.zeros_like(image)
+
+    cv2.fillPoly(mask, polygons, 255) # color of polygon, completely white
+    
+    # will return only the region of interest traced by the polygonal contour of the mask
+    masked_image = cv2.bitwise_and(image, mask) 
+
+    return masked_image
+
 def display_lines(image, lines):
     """ line_image is an array of zeros with the same shape as the lane images array"""
     line_image =numpy.zeros_like(image)
@@ -88,27 +109,6 @@ def average_slop_intercept(image, lines):
     right_line = make_coordinates(image, right_fit_average)
 
     return numpy.array([left_line, right_line])
-
-def region_of_interest(image):
-    """ will return the enclosed region of our field of view and recall that the enclosed region was triangular in shape """
-    # this sizes corresponds to the triangle I drew before in matplotlib
-    # camn array is 2-dimensional: (m, n)
-    height = image.shape[0]
-
-    # set the tringle polygon in an array of polygon
-    polygons = numpy.array([
-        [(200, height), (1100, height), (550, 250)]
-        ])
-
-    # then apply this triangle polygon to a black mask with same dimension
-    mask = numpy.zeros_like(image)
-
-    cv2.fillPoly(mask, polygons, 255) # color of polygon, completely white
-    
-    # will return only the region of interest traced by the polygonal contour of the mask
-    masked_image = cv2.bitwise_and(image, mask) 
-
-    return masked_image
 
 # ic.disable()
 
