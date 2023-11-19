@@ -28,6 +28,42 @@ def display_lines(image, lines):
     
     return line_image
 
+def average_slop_intercept(image, lines):
+    """ calculate the slope(pendiente)
+    ---
+    ``y = mx + b`` \n
+    where m = (y2-y1) / (x2-x1) \n
+    b = y - mx
+    """
+    left_fit = []
+    right_fit = []
+
+    for line in lines:
+        x1, y1, x2, y2 = line.reshape(4)
+        
+        """ polyfit will a first degree polynomial which would simply be a linear function of Y is equal to MX plus B,
+        and its going to fit this polynomial to our X&Y points and return a vector of coefficients which describe the slope and Y intercept """
+        parameters = numpy.polyfit((x1, x2), (y1, y2), 1)
+        ic(parameters)
+
+        slope = parameters[0]
+        intercept = parameters[1]
+
+        """ determine if the slope of the line corresponds to the left or right line """
+        if slope < 0:
+            left_fit.append((slope, intercept))
+        else:
+            right_fit.append((slope, intercept))
+    
+    ic(left_fit)
+    ic(right_fit)
+
+    left_fit_average = numpy.average(left_fit, axis=0)
+    right_fit_average = numpy.average(right_fit, axis=0)
+
+    ic(left_fit_average, right_fit_average)
+
+
 def region_of_interest(image):
     """ will return the enclosed region of our field of view and recall that the enclosed region was triangular in shape """
     # this sizes corresponds to the triangle I drew before in matplotlib
@@ -78,7 +114,8 @@ lines = cv2.HoughLinesP(
     numpy.array([]),
     minLineLength=40,
     maxLineGap=5
-) 
+)
+averaged_lines = average_slop_intercept(lane_image, lines)
 line_image = display_lines(lane_image, lines)
 combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1) 
 

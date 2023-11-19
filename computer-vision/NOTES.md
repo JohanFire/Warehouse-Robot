@@ -149,3 +149,5 @@ be detected.
 We need our bins to be sufficiently small, the smaller the row and degree
 intervals we specify for each bin, the smaller the bins and the more precision in which we can detect our lines.
 Yet you don't want to make your bins too small, since that can also result in inaccuracies and taking more time to run.
+
+** Check for the Docstring from each method**
