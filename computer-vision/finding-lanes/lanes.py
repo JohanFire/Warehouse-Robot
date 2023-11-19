@@ -28,6 +28,27 @@ def display_lines(image, lines):
     
     return line_image
 
+def make_coordinates(image, line_parameters):
+    """ return value that denotes X and Y coordinates of the line. \n
+    ``y = mx + b`` \n
+    where x = (y-b) / m \n
+    """
+    slope, intercept = line_parameters
+    
+    ic(image.shape)
+    """
+    image.shape: (704, 1279, 3)
+    image.shape: (height, width, numberOfChannels)
+    """ 
+
+    y1 = image.shape[0]
+    y2 = int(y1 * (3/5))
+
+    x1 = int((y1 - intercept)/slope)
+    x2 = int((y2 - intercept)/slope)
+
+    return numpy.array([x1, y1, x2, y2])
+
 def average_slop_intercept(image, lines):
     """ calculate the slope(pendiente)
     ---
@@ -63,6 +84,10 @@ def average_slop_intercept(image, lines):
 
     ic(left_fit_average, right_fit_average)
 
+    left_line = make_coordinates(image, left_fit_average)
+    right_line = make_coordinates(image, right_fit_average)
+
+    return numpy.array([left_line, right_line])
 
 def region_of_interest(image):
     """ will return the enclosed region of our field of view and recall that the enclosed region was triangular in shape """
@@ -119,18 +144,25 @@ averaged_lines = average_slop_intercept(lane_image, lines)
 line_image = display_lines(lane_image, lines)
 combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1) 
 
+average_line_image = display_lines(lane_image, averaged_lines)
+average_combo_image = cv2.addWeighted(lane_image, 0.8, average_line_image, 1, 1)
 
-""" For show """
+
+""" Resized images, for show """
 lane_imageResized = cv2.resize(lane_image,(720,480))
 canny_imageResized = cv2.resize(canny_image,(720,480))
 cropped_imageResized = cv2.resize(cropped_image,(720,480))
 line_imageResized = cv2.resize(line_image,(720,480)) 
+averaged_line_imageResized = cv2.resize(average_line_image,(720,480)) 
+# combo_imageResized = cv2.resize(combo_image, (720, 480))
 
 cv2.imshow('lane_image', lane_imageResized)
 cv2.imshow('canny', canny_imageResized)
 cv2.imshow('region_of_interest', cropped_imageResized)
 cv2.imshow('lines', line_imageResized)
-cv2.imshow('RESULT', combo_image)
+cv2.imshow('averaged_line', averaged_line_imageResized)
+# cv2.imshow('display lane lines', combo_imageResized)
+cv2.imshow('RESULT', average_combo_image)
 
 cv2.waitKey(0)
 
