@@ -53,10 +53,6 @@ lane_image = numpy.copy(image)
 canny = canny(lane_image)
 cropped_image = region_of_interest(canny)
 
-lane_imageResized = cv2.resize(lane_image,(720,480)) # for show
-cannyResized = cv2.resize(canny,(720,480)) # for show
-cropped_imageResized = cv2.resize(cropped_image,(720,480)) # for show
-
 """ 2nd & 3rd arguments are really important 
 as they specify the size of the bits, 
 Rho = distance resolution of the accumulator in pixels
@@ -81,11 +77,20 @@ lines = cv2.HoughLinesP(
     maxLineGap=5
 ) 
 line_image = display_lines(lane_image, lines)
+combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1) 
+
+
+""" For show """
+lane_imageResized = cv2.resize(lane_image,(720,480))
+cannyResized = cv2.resize(canny,(720,480))
+cropped_imageResized = cv2.resize(cropped_image,(720,480))
+line_imageResized = cv2.resize(line_image,(720,480)) 
 
 cv2.imshow('lane_image', lane_imageResized)
 cv2.imshow('canny', cannyResized)
 cv2.imshow('region_of_interest', cropped_imageResized)
-cv2.imshow('result', line_image)
+cv2.imshow('lines', line_imageResized)
+cv2.imshow('RESULT', combo_image)
 
 cv2.waitKey(0)
 
