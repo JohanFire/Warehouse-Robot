@@ -53,8 +53,8 @@ def region_of_interest(image):
 
 image = cv2.imread("test_lane_02.png")
 lane_image = numpy.copy(image)
-canny = canny(lane_image)
-cropped_image = region_of_interest(canny)
+canny_image = canny(lane_image)
+cropped_image = region_of_interest(canny_image)
 
 """ 2nd & 3rd arguments are really important 
 as they specify the size of the bits, 
@@ -85,12 +85,12 @@ combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1)
 
 """ For show """
 lane_imageResized = cv2.resize(lane_image,(720,480))
-cannyResized = cv2.resize(canny,(720,480))
+canny_imageResized = cv2.resize(canny_image,(720,480))
 cropped_imageResized = cv2.resize(cropped_image,(720,480))
 line_imageResized = cv2.resize(line_image,(720,480)) 
 
 cv2.imshow('lane_image', lane_imageResized)
-cv2.imshow('canny', cannyResized)
+cv2.imshow('canny', canny_imageResized)
 cv2.imshow('region_of_interest', cropped_imageResized)
 cv2.imshow('lines', line_imageResized)
 cv2.imshow('RESULT', combo_image)
