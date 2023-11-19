@@ -110,61 +110,65 @@ def average_slop_intercept(image, lines):
 
     return numpy.array([left_line, right_line])
 
-# ic.disable()
+def main():
+    # ic.disable()
 
-image = cv2.imread("test_lane_02.png")
-lane_image = numpy.copy(image)
-canny_image = canny(lane_image)
-cropped_image = region_of_interest(canny_image)
+    image = cv2.imread("test_lane_02.png")
+    lane_image = numpy.copy(image)
+    canny_image = canny(lane_image)
+    cropped_image = region_of_interest(canny_image)
 
-""" 2nd & 3rd arguments are really important 
-as they specify the size of the bits, 
-Rho = distance resolution of the accumulator in pixels
-Theta = angle resolution of the accumulator in radians
+    """ 2nd & 3rd arguments are really important 
+    as they specify the size of the bits, 
+    Rho = distance resolution of the accumulator in pixels
+    Theta = angle resolution of the accumulator in radians
 
-arguments:
-- image
-- Precision of 2 pixels
-- 1 degree precision (1 degree = pi/180)
-- threshold = 100 forth
-# Threshold: minimum number of votes/intersections needed to accept a candidate line
-- placeholder empty array
-- minimum length of a line in pixels we will accept into the output
-- max line gap 
-"""
-lines = cv2.HoughLinesP(
-    cropped_image, 
-    2, 
-    numpy.pi/180, 100, 
-    numpy.array([]),
-    minLineLength=40,
-    maxLineGap=5
-)
-averaged_lines = average_slop_intercept(lane_image, lines)
-line_image = display_lines(lane_image, lines)
-combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1) 
+    arguments:
+    - image
+    - Precision of 2 pixels
+    - 1 degree precision (1 degree = pi/180)
+    - threshold = 100 forth
+    # Threshold: minimum number of votes/intersections needed to accept a candidate line
+    - placeholder empty array
+    - minimum length of a line in pixels we will accept into the output
+    - max line gap 
+    """
+    lines = cv2.HoughLinesP(
+        cropped_image, 
+        2, 
+        numpy.pi/180, 100, 
+        numpy.array([]),
+        minLineLength=40,
+        maxLineGap=5
+    )
+    averaged_lines = average_slop_intercept(lane_image, lines)
+    line_image = display_lines(lane_image, lines)
+    combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1) 
 
-average_line_image = display_lines(lane_image, averaged_lines)
-average_combo_image = cv2.addWeighted(lane_image, 0.8, average_line_image, 1, 1)
+    average_line_image = display_lines(lane_image, averaged_lines)
+    average_combo_image = cv2.addWeighted(lane_image, 0.8, average_line_image, 1, 1)
 
 
-""" Resized images, for show """
-lane_imageResized = cv2.resize(lane_image,(720,480))
-canny_imageResized = cv2.resize(canny_image,(720,480))
-cropped_imageResized = cv2.resize(cropped_image,(720,480))
-line_imageResized = cv2.resize(line_image,(720,480)) 
-averaged_line_imageResized = cv2.resize(average_line_image,(720,480)) 
-# combo_imageResized = cv2.resize(combo_image, (720, 480))
+    """ Resized images, for show """
+    lane_imageResized = cv2.resize(lane_image,(720,480))
+    canny_imageResized = cv2.resize(canny_image,(720,480))
+    cropped_imageResized = cv2.resize(cropped_image,(720,480))
+    line_imageResized = cv2.resize(line_image,(720,480)) 
+    averaged_line_imageResized = cv2.resize(average_line_image,(720,480)) 
+    # combo_imageResized = cv2.resize(combo_image, (720, 480))
 
-cv2.imshow('lane_image', lane_imageResized)
-cv2.imshow('canny', canny_imageResized)
-cv2.imshow('region_of_interest', cropped_imageResized)
-cv2.imshow('lines', line_imageResized)
-cv2.imshow('averaged_line', averaged_line_imageResized)
-# cv2.imshow('display lane lines', combo_imageResized)
-cv2.imshow('RESULT', average_combo_image)
+    cv2.imshow('lane_image', lane_imageResized)
+    cv2.imshow('canny', canny_imageResized)
+    cv2.imshow('region_of_interest', cropped_imageResized)
+    cv2.imshow('lines', line_imageResized)
+    cv2.imshow('averaged_line', averaged_line_imageResized)
+    # cv2.imshow('display lane lines', combo_imageResized)
+    cv2.imshow('RESULT', average_combo_image)
 
-cv2.waitKey(0)
+    cv2.waitKey(0)
 
-# plt.imshow(canny)
-# plt.show()
+    # plt.imshow(canny)
+    # plt.show()
+
+if __name__ == '__main__':
+    main()
