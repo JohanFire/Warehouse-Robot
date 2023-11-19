@@ -1,6 +1,7 @@
 import cv2
 import numpy
 import matplotlib.pyplot as plt
+from icecream import ic
 
 def canny(image):
     gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
@@ -14,7 +15,7 @@ def display_lines(image, lines):
     
     if lines is not None:
         for line in lines:
-            print(line)
+            ic(line)
             """ each line is a 2D array containing line coordinates [[x1, y1, x2, y2]] 
             now will reshape every line into a 1D array [x1, y1, x2, y2]
             """
@@ -27,8 +28,8 @@ def display_lines(image, lines):
     
     return line_image
 
-# will return the enclosed region of our field of view and recall that the enclosed region was triangular in shape
 def region_of_interest(image):
+    """ will return the enclosed region of our field of view and recall that the enclosed region was triangular in shape """
     # this sizes corresponds to the triangle I drew before in matplotlib
     # camn array is 2-dimensional: (m, n)
     height = image.shape[0]
@@ -47,6 +48,8 @@ def region_of_interest(image):
     masked_image = cv2.bitwise_and(image, mask) 
 
     return masked_image
+
+# ic.disable()
 
 image = cv2.imread("test_lane_02.png")
 lane_image = numpy.copy(image)
