@@ -192,14 +192,26 @@ def main():
         line_image = display_lines(frame, lines)
         combo_image = cv2.addWeighted(frame, 0.8, line_image, 1, 1) 
 
-        # draw the middle line between left & right lane
-        middle_line_coordinates = [averaged_lines[1][0] - averaged_lines[0][0], (averaged_lines[1][2] + averaged_lines[0][2])/2]
+        """ draw the middle line between left & right lane """
+        middle_line_coordinates = [averaged_lines[1][0] - averaged_lines[0][0], int((averaged_lines[1][2] + averaged_lines[0][2])/2)]
+        ic(middle_line_coordinates)
 
         average_line_image = display_lines(frame, averaged_lines)
         average_combo_image = cv2.addWeighted(frame, 0.8, average_line_image, 1, 1)
 
         reference_line = cv2.line(average_combo_image, (640, 560), (640, 720), (0, 255 ,0), 3)
-        middle_line = cv2.line(average_combo_image, (int(middle_line_coordinates[1]), 432), (middle_line_coordinates[0], 720), (255, 0 ,0), 3)
+        middle_line = cv2.line(average_combo_image, (middle_line_coordinates[1], 432), (middle_line_coordinates[0], 720), (255, 0 ,0), 3)
+
+        # half of the middle_line
+        half_line = cv2.line(average_combo_image, (620, 560), (660, 560), (0, 255 ,0), 3)
+        # half_line_2 = cv2.line(average_combo_image, (int(middle_line_coordinates[1]), 560), (middle_line_coordinates[0], 560), (0, 0 ,255), 2)
+
+        middle_line = cv2.line(average_combo_image, (middle_line_coordinates[1], 432), (middle_line_coordinates[0], 720), (100, 0 ,255), 1)
+
+        middle_dot_coordinates = (int((middle_line_coordinates[0] + middle_line_coordinates[1])/2))
+        ic(middle_dot_coordinates)
+        middle_dot = cv2.circle(average_combo_image, (middle_dot_coordinates, 560), 5, (100, 0 ,255), -1) 
+        
 
         """ Resized images, for show """
         # frameResized = cv2.resize(frame,(720,480))
