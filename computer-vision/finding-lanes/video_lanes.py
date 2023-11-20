@@ -189,49 +189,14 @@ def main():
         line_image = display_lines(frame, lines)
         combo_image = cv2.addWeighted(frame, 0.8, line_image, 1, 1) 
 
-
-
-        ic('averaged_lines !!!!!!!!!!!!', averaged_lines)
-        ic(averaged_lines[0][0])
-
+        # draw the middle line between left & right lane
         middle_line_coordinates = [averaged_lines[1][0] - averaged_lines[0][0], (averaged_lines[1][2] + averaged_lines[0][2])/2]
-        top_point = (averaged_lines[1][2] + averaged_lines[0][2])/2
-        ic(int(top_point))
-        ic(middle_line_coordinates)
-
-        
-
-        # for x in range(0, 4):
-        #     ic(x)
-
-
-        # get middle line from averaged_lines
-        for line in averaged_lines:
-        # for x1, y1, x2, y2 in averaged_lines:
-            ic(line)
-            """ each line is a 2D array containing line coordinates [[x1, y1, x2, y2]] 
-            now will reshape every line into a 1D array [x1, y1, x2, y2]
-            """
-            # line = line.reshape(4)
-
-            # x1, y1, x2, y2 = line.reshape(4)
-            # ic(x1, y1, x2, y2)
-
-            for element in line:
-                ic(element)
-            
-            ic('fin for loop')
-        
-
-        
-
-
 
         average_line_image = display_lines(frame, averaged_lines)
         average_combo_image = cv2.addWeighted(frame, 0.8, average_line_image, 1, 1)
 
-        reference_line = cv2.line(average_combo_image, (640, 560), (640, 720), (0, 255 ,0), 5)
-        middle_line = cv2.line(average_combo_image, (int(middle_line_coordinates[1]), 432), (middle_line_coordinates[0], 720), (255, 0 ,0), 5)
+        reference_line = cv2.line(average_combo_image, (640, 560), (640, 720), (0, 255 ,0), 3)
+        middle_line = cv2.line(average_combo_image, (int(middle_line_coordinates[1]), 432), (middle_line_coordinates[0], 720), (255, 0 ,0), 3)
 
         """ Resized images, for show """
         # frameResized = cv2.resize(frame,(720,480))
