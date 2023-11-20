@@ -202,8 +202,8 @@ def main():
         reference_line = cv2.line(average_combo_image, (640, 560), (640, 720), (0, 255 ,0), 3)
         middle_line = cv2.line(average_combo_image, (middle_line_coordinates[1], 432), (middle_line_coordinates[0], 720), (255, 0 ,0), 3)
 
-        # half of the middle_line
-        half_line = cv2.line(average_combo_image, (620, 560), (660, 560), (0, 255 ,0), 3)
+        # half of the middle_line, yellow color
+        half_line = cv2.line(average_combo_image, (620, 560), (660, 560), (0, 255 ,222), 3)
         # half_line_2 = cv2.line(average_combo_image, (int(middle_line_coordinates[1]), 560), (middle_line_coordinates[0], 560), (0, 0 ,255), 2)
 
         middle_line = cv2.line(average_combo_image, (middle_line_coordinates[1], 432), (middle_line_coordinates[0], 720), (100, 0 ,255), 1)
@@ -212,6 +212,16 @@ def main():
         ic(middle_dot_coordinates)
         middle_dot = cv2.circle(average_combo_image, (middle_dot_coordinates, 560), 5, (100, 0 ,255), -1) 
         
+        if middle_dot_coordinates > 640:
+            direction_text = cv2.putText(average_combo_image, '<- Left', (middle_dot_coordinates+20, 540), 
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 0 ,255), 2, cv2.LINE_AA
+            )
+        else:
+            direction_text = cv2.putText(average_combo_image, 'Right ->', (middle_dot_coordinates-180, 540), 
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 0 ,255), 2, cv2.LINE_AA
+            )
+
+        test = cv2.circle(average_combo_image, (middle_dot_coordinates, 560), 5, (100, 0 ,255), -1) 
 
         """ Resized images, for show """
         # frameResized = cv2.resize(frame,(720,480))
