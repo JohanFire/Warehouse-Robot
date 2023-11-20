@@ -216,8 +216,12 @@ def main():
             direction_text = cv2.putText(average_combo_image, '<- Left', (middle_dot_coordinates+20, 540), 
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 0 ,255), 2, cv2.LINE_AA
             )
-        else:
+        elif middle_dot_coordinates < 640:
             direction_text = cv2.putText(average_combo_image, 'Right ->', (middle_dot_coordinates-180, 540), 
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 0 ,255), 2, cv2.LINE_AA
+            )
+        else:
+            direction_text = cv2.putText(average_combo_image, 'Good', (middle_dot_coordinates-40, 500), 
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 0 ,255), 2, cv2.LINE_AA
             )
 
