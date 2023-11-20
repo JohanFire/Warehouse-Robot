@@ -224,8 +224,19 @@ def main():
         test = cv2.circle(average_combo_image, (middle_dot_coordinates, 560), 5, (100, 0 ,255), -1) 
 
         """ Resized images, for show """
-        # frameResized = cv2.resize(frame,(720,480))
-        # cv2.imshow('RESULT', average_combo_image)
+        lane_imageResized = cv2.resize(frame,(720,480))
+        canny_imageResized = cv2.resize(canny_image,(720,480))
+        cropped_imageResized = cv2.resize(cropped_image,(720,480))
+        line_imageResized = cv2.resize(line_image,(720,480)) 
+        averaged_line_imageResized = cv2.resize(average_line_image,(720,480)) 
+        # combo_imageResized = cv2.resize(combo_image, (720, 480))
+
+        cv2.imshow('lane_image', lane_imageResized)
+        cv2.imshow('canny', canny_imageResized)
+        cv2.imshow('region_of_interest', cropped_imageResized)
+        cv2.imshow('lines', line_imageResized)
+        cv2.imshow('averaged_line', averaged_line_imageResized)
+        
 
         # cv2.imshow('RESULT', combo_image)
         cv2.imshow('RESULT', average_combo_image)
