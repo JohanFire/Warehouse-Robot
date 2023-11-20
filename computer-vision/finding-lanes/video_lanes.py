@@ -185,7 +185,10 @@ def main():
             minLineLength=40,
             maxLineGap=5
         )
-        averaged_lines = average_slop_intercept(frame, lines)
+        try:
+            averaged_lines = average_slop_intercept(frame, lines)
+        except Exception as e:
+            print(e)
         line_image = display_lines(frame, lines)
         combo_image = cv2.addWeighted(frame, 0.8, line_image, 1, 1) 
 
