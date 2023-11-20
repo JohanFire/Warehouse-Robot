@@ -110,67 +110,67 @@ def average_slop_intercept(image, lines):
 
     return numpy.array([left_line, right_line])
 
+def main_image():
+    # ic.disable()
+
+    image = cv2.imread("test_lane_02.png")
+    lane_image = numpy.copy(image)
+    canny_image = canny(lane_image)
+    cropped_image = region_of_interest(canny_image)
+
+    """ 2nd & 3rd arguments are really important 
+    as they specify the size of the bits, 
+    Rho = distance resolution of the accumulator in pixels
+    Theta = angle resolution of the accumulator in radians
+
+    arguments:
+    - image
+    - Precision of 2 pixels
+    - 1 degree precision (1 degree = pi/180)
+    - threshold = 100 forth
+    # Threshold: minimum number of votes/intersections needed to accept a candidate line
+    - placeholder empty array
+    - minimum length of a line in pixels we will accept into the output
+    - max line gap 
+    """
+    lines = cv2.HoughLinesP(
+        cropped_image, 
+        2, 
+        numpy.pi/180, 100, 
+        numpy.array([]),
+        minLineLength=40,
+        maxLineGap=5
+    )
+    averaged_lines = average_slop_intercept(lane_image, lines)
+    line_image = display_lines(lane_image, lines)
+    combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1) 
+
+    average_line_image = display_lines(lane_image, averaged_lines)
+    average_combo_image = cv2.addWeighted(lane_image, 0.8, average_line_image, 1, 1)
+
+
+    """ Resized images, for show """
+    lane_imageResized = cv2.resize(lane_image,(720,480))
+    canny_imageResized = cv2.resize(canny_image,(720,480))
+    cropped_imageResized = cv2.resize(cropped_image,(720,480))
+    line_imageResized = cv2.resize(line_image,(720,480)) 
+    averaged_line_imageResized = cv2.resize(average_line_image,(720,480)) 
+    # combo_imageResized = cv2.resize(combo_image, (720, 480))
+
+    cv2.imshow('lane_image', lane_imageResized)
+    cv2.imshow('canny', canny_imageResized)
+    cv2.imshow('region_of_interest', cropped_imageResized)
+    cv2.imshow('lines', line_imageResized)
+    cv2.imshow('averaged_line', averaged_line_imageResized)
+    # cv2.imshow('display lane lines', combo_imageResized)
+    cv2.imshow('RESULT', average_combo_image)
+
+    cv2.waitKey(0)
+
+    # plt.imshow(canny)
+    # plt.show()
+
 def main():
-    # # ic.disable()
-
-    # image = cv2.imread("test_lane_02.png")
-    # lane_image = numpy.copy(image)
-    # canny_image = canny(lane_image)
-    # cropped_image = region_of_interest(canny_image)
-
-    # """ 2nd & 3rd arguments are really important 
-    # as they specify the size of the bits, 
-    # Rho = distance resolution of the accumulator in pixels
-    # Theta = angle resolution of the accumulator in radians
-
-    # arguments:
-    # - image
-    # - Precision of 2 pixels
-    # - 1 degree precision (1 degree = pi/180)
-    # - threshold = 100 forth
-    # # Threshold: minimum number of votes/intersections needed to accept a candidate line
-    # - placeholder empty array
-    # - minimum length of a line in pixels we will accept into the output
-    # - max line gap 
-    # """
-    # lines = cv2.HoughLinesP(
-    #     cropped_image, 
-    #     2, 
-    #     numpy.pi/180, 100, 
-    #     numpy.array([]),
-    #     minLineLength=40,
-    #     maxLineGap=5
-    # )
-    # averaged_lines = average_slop_intercept(lane_image, lines)
-    # line_image = display_lines(lane_image, lines)
-    # combo_image = cv2.addWeighted(lane_image, 0.8, line_image, 1, 1) 
-
-    # average_line_image = display_lines(lane_image, averaged_lines)
-    # average_combo_image = cv2.addWeighted(lane_image, 0.8, average_line_image, 1, 1)
-
-
-    # """ Resized images, for show """
-    # lane_imageResized = cv2.resize(lane_image,(720,480))
-    # canny_imageResized = cv2.resize(canny_image,(720,480))
-    # cropped_imageResized = cv2.resize(cropped_image,(720,480))
-    # line_imageResized = cv2.resize(line_image,(720,480)) 
-    # averaged_line_imageResized = cv2.resize(average_line_image,(720,480)) 
-    # # combo_imageResized = cv2.resize(combo_image, (720, 480))
-
-    # cv2.imshow('lane_image', lane_imageResized)
-    # cv2.imshow('canny', canny_imageResized)
-    # cv2.imshow('region_of_interest', cropped_imageResized)
-    # cv2.imshow('lines', line_imageResized)
-    # cv2.imshow('averaged_line', averaged_line_imageResized)
-    # # cv2.imshow('display lane lines', combo_imageResized)
-    # cv2.imshow('RESULT', average_combo_image)
-
-    # cv2.waitKey(0)
-
-    # # plt.imshow(canny)
-    # # plt.show()
-
-
     cap = cv2.VideoCapture('test2.mp4')
     while(cap.isOpened()):
         _, frame = cap.read()
@@ -185,17 +185,62 @@ def main():
             minLineLength=40,
             maxLineGap=5
         )
-        averaged_lines = average_slop_intercept(frame, lines)
+        try:
+            averaged_lines = average_slop_intercept(frame, lines)
+        except Exception as e:
+            print(e)
         line_image = display_lines(frame, lines)
         combo_image = cv2.addWeighted(frame, 0.8, line_image, 1, 1) 
+
+        """ draw the middle line between left & right lane """
+        middle_line_coordinates = [averaged_lines[1][0] - averaged_lines[0][0], int((averaged_lines[1][2] + averaged_lines[0][2])/2)]
+        ic(middle_line_coordinates)
 
         average_line_image = display_lines(frame, averaged_lines)
         average_combo_image = cv2.addWeighted(frame, 0.8, average_line_image, 1, 1)
 
+        reference_line = cv2.line(average_combo_image, (640, 560), (640, 720), (0, 255 ,0), 3)
+        middle_line = cv2.line(average_combo_image, (middle_line_coordinates[1], 432), (middle_line_coordinates[0], 720), (255, 0 ,0), 3)
+
+        # half of the middle_line, yellow color
+        half_line = cv2.line(average_combo_image, (620, 560), (660, 560), (0, 255 ,222), 3)
+        # half_line_2 = cv2.line(average_combo_image, (int(middle_line_coordinates[1]), 560), (middle_line_coordinates[0], 560), (0, 0 ,255), 2)
+
+        middle_line = cv2.line(average_combo_image, (middle_line_coordinates[1], 432), (middle_line_coordinates[0], 720), (100, 0 ,255), 1)
+
+        middle_dot_coordinates = (int((middle_line_coordinates[0] + middle_line_coordinates[1])/2))
+        ic(middle_dot_coordinates)
+        middle_dot = cv2.circle(average_combo_image, (middle_dot_coordinates, 560), 5, (100, 0 ,255), -1) 
+        
+        if middle_dot_coordinates > 640:
+            direction_text = cv2.putText(average_combo_image, '<- Left', (middle_dot_coordinates+20, 540), 
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 0 ,255), 2, cv2.LINE_AA
+            )
+        elif middle_dot_coordinates < 640:
+            direction_text = cv2.putText(average_combo_image, 'Right ->', (middle_dot_coordinates-180, 540), 
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 0 ,255), 2, cv2.LINE_AA
+            )
+        else:
+            direction_text = cv2.putText(average_combo_image, 'Good', (middle_dot_coordinates-40, 500), 
+                cv2.FONT_HERSHEY_SIMPLEX, 1, (100, 0 ,255), 2, cv2.LINE_AA
+            )
+
+        test = cv2.circle(average_combo_image, (middle_dot_coordinates, 560), 5, (100, 0 ,255), -1) 
 
         """ Resized images, for show """
-        # frameResized = cv2.resize(frame,(720,480))
-        # cv2.imshow('RESULT', average_combo_image)
+        lane_imageResized = cv2.resize(frame,(720,480))
+        canny_imageResized = cv2.resize(canny_image,(720,480))
+        cropped_imageResized = cv2.resize(cropped_image,(720,480))
+        line_imageResized = cv2.resize(line_image,(720,480)) 
+        averaged_line_imageResized = cv2.resize(average_line_image,(720,480)) 
+        # combo_imageResized = cv2.resize(combo_image, (720, 480))
+
+        cv2.imshow('lane_image', lane_imageResized)
+        cv2.imshow('canny', canny_imageResized)
+        cv2.imshow('region_of_interest', cropped_imageResized)
+        cv2.imshow('lines', line_imageResized)
+        cv2.imshow('averaged_line', averaged_line_imageResized)
+        
 
         # cv2.imshow('RESULT', combo_image)
         cv2.imshow('RESULT', average_combo_image)
