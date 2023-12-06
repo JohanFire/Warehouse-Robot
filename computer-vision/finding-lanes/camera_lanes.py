@@ -8,8 +8,8 @@ def canny(image):
     canny = cv2.Canny(blur, 50, 150) #(image, lowThreshold, highThreshold)
     return canny
 
-# capture = cv2.VideoCapture(0)
-capture = cv2.VideoCapture(1)
+capture = cv2.VideoCapture(0)
+# capture = cv2.VideoCapture(1)
 # OpenCV uses 640 x 480 by default, higher makes it slow
 # capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 # capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)

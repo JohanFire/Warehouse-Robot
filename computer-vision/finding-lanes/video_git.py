@@ -10,7 +10,7 @@ cv2.createTrackbar('upper', 'window', 0, 255, nothing)
 
 #img = cv2.imread('test.jpg')
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 
 #gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 

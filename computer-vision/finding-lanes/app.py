@@ -111,10 +111,11 @@ def average_slop_intercept(image, lines):
     return numpy.array([left_line, right_line])
 
 def main():
-    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture('http://192.168.193.97:8080/video')
     # OpenCV uses 640 x 480 by default, higher makes it slow
-    # capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
-    # capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
 
     while True:
         _, frame = cap.read()
@@ -124,7 +125,7 @@ def main():
         lines = cv2.HoughLinesP(
             cropped_image, 
             2, 
-            numpy.pi/180, 100, 
+            numpy.pi/180, 100,
             numpy.array([]),
             minLineLength=40,
             maxLineGap=5
@@ -187,6 +188,8 @@ def main():
         cv2.imshow('region_of_interest', cropped_imageResized)
         cv2.imshow('lines', line_imageResized)
         cv2.imshow('averaged_line', averaged_line_imageResized)
+
+        cv2.imshow('RESULT', average_combo_image)
 
         
         if cv2.waitKey(1) & 0xFF == ord('q'):

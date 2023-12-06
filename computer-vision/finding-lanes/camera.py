@@ -1,7 +1,8 @@
 import cv2
 
 # capture = cv2.VideoCapture(0)
-capture = cv2.VideoCapture(1)
+# capture = cv2.VideoCapture(1)
+capture = cv2.VideoCapture('http://192.168.193.97:8080/video')
 # OpenCV uses 640 x 480 by default, higher makes it slow
 # capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
 # capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
