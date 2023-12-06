@@ -12,7 +12,9 @@ const int pinIN11 = 10;
 const int pinIN22 = 11;
 const int lectura = 12;
 
-const int speed = 150;    //velocidad de giro 80% (200/255)
+const int speed = 200;    //velocidad de giro 80% (200/255)
+const int speed1 = 100;  // to slow the fastest motor
+const int speed2 = 20;
 
 void setup()
 {
@@ -39,12 +41,15 @@ void loop()
   digitalWrite(pinIN1, HIGH);
   digitalWrite(pinIN2, LOW);
   analogWrite(pinENA, speed);
+
   digitalWrite(pinIN11, HIGH);
   digitalWrite(pinIN22, LOW);
   analogWrite(pinENAA, speed);
+
   digitalWrite(pinIN1B, HIGH);
   digitalWrite(pinIN2B, LOW);
   analogWrite(pinENB, speed);
+
   digitalWrite(pinIN11B, HIGH);
   digitalWrite(pinIN22B, LOW);
   analogWrite(pinENBB, speed);
@@ -54,12 +59,15 @@ void loop()
   digitalWrite(pinIN1, LOW);
   digitalWrite(pinIN2, LOW);
   analogWrite(pinENA, speed);
+
   digitalWrite(pinIN11, LOW);
   digitalWrite(pinIN22, LOW);
   analogWrite(pinENAA, speed);
+
   digitalWrite(pinIN1B, LOW);
   digitalWrite(pinIN2B, LOW);
   analogWrite(pinENB, speed);
+
   digitalWrite(pinIN11B, LOW);
   digitalWrite(pinIN22B, LOW);
   analogWrite(pinENBB, speed);
