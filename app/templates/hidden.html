@@ -3,23 +3,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} - Warehouse Robot</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" >
+    <link rel="stylesheet" href="{{ url_for('static', filename='style_hidden.css') }}" >
 </head>
 <body>
 
-    <form>
-        <label for="nombre">Hidden </label>
+    <div class="separator" >
+        <form class="contact-form" method="post" action="{{ url_for('control.hidden_forward') }}"
+            style="background-color: rgb(237, 171, 64);"
+        >
+            <label for="nombre">Hidden </label>
+            <button onclick="cambiarContenidoUno()" style="background-color: rgb(210, 97, 11);" >
+                Forward
+            </button>
+    
+        </form>
         
-        <a href=# id=test><button class='btn btn-default'>Test</button></a>
-        
-        <button onclick="cambiarContenidoUno()" >
-            Forward
-        </button>
+        <form class="contact-form" method="post" action="{{ url_for('control.hidden_stop') }}"
+            style="background-color: rgb(237, 171, 64);"
+        >
+            <button onclick="cambiarContenidoDos()" style="background-color: rgb(152, 68, 4);" >
+                Stop
+            </button>
+        </form>
 
-        <button onclick="cambiarContenidoDos()" >
-            Stop
-        </button>
-    </form>
+    </div>
+
 
     <script type=text/javascript>
         $(function() {

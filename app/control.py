@@ -2,7 +2,9 @@ from flask import (
     Blueprint, 
     render_template,
     jsonify, 
-    request
+    request,
+    redirect,
+    url_for
 )
 
 bp = Blueprint('control', __name__, url_prefix='/')
@@ -15,12 +17,40 @@ def index():
 def hidden():
     return render_template('hidden.html')
 
+@bp.route('/hidden_forward', methods=['GET', 'POST'])
+def hidden_forward():
+    print('hidden_forward() !')
 
-#background process happening without any refreshing
-@bp.route('/background_process_test')
-def background_process_test():
-    print ("Helloooo")
-    return ("nothing")
+    if request.method == "POST":
+        print('post!')
+        return render_template('hidden.html')
+    
+    return redirect(url_for('portfolio.index'))
+
+@bp.route('/hidden_stop', methods=['GET', 'POST'])
+def hidden_stop():
+    print('hidden_stop() !')
+
+    if request.method == "POST":
+        print('post!')
+        return render_template('hidden.html')
+    
+    return redirect(url_for('portfolio.index'))
+
+
+
+
+
+
+
+
+@bp.route("/forward/", methods=['POST'])
+def move_forward():
+    #Moving forward code
+    forward_message = "Moving Forward..."
+    return render_template('index.html', forward_message=forward_message);
+
+
 
 # Ruta para cambiar el contenido del JSON a "Nuevo Contenido Uno"
 @bp.route('/cambiar_contenido_uno', methods=['POST'])
