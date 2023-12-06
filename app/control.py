@@ -6,6 +6,8 @@ from flask import (
     redirect,
     url_for
 )
+import json
+import os
 
 bp = Blueprint('control', __name__, url_prefix='/')
 
@@ -17,12 +19,30 @@ def index():
 def hidden():
     return render_template('hidden.html')
 
+def change_json(change_to: bool):
+    # json_path = './database.json'
+    json_path = os.path.abspath('app/database.json')
+
+    with open(json_path, 'r') as file:
+        # load JSON in a dict
+        data = json.load(file)
+
+        print(data)
+
+    # True or False
+    data['instruction'] = change_to
+
+    with open(json_path, 'w') as file:
+        json.dump(data, file, indent=4)
+
+    print(f'json content: {json_path} modified succesfully.')
+
 @bp.route('/hidden_forward', methods=['GET', 'POST'])
 def hidden_forward():
     print('hidden_forward() !')
 
     if request.method == "POST":
-        print('post!')
+        change_json(True)
         return render_template('hidden.html')
     
     return redirect(url_for('portfolio.index'))
@@ -32,7 +52,7 @@ def hidden_stop():
     print('hidden_stop() !')
 
     if request.method == "POST":
-        print('post!')
+        change_json(False)
         return render_template('hidden.html')
     
     return redirect(url_for('portfolio.index'))
